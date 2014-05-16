@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Contact
+
+# Model Form Field configuration
+form: @/plugins/alxy/contact/models/contact/fields.yaml
+
+# Model Class name
+modelClass: Alxy\Contact\Models\Contact
+
+# Default redirect location
+defaultRedirect: alxy/contact/contact
+
+# Create page
+create:
+    title: Create Contact
+    redirect: alxy/contact/contact/update/:id
+    redirectClose: alxy/contact/contact
+
+# Update page
+update:
+    title: Edit Contact
+    redirect: alxy/contact/contact
+    redirectClose: alxy/contact/contact
+
+# Preview page
+preview:
+    title: Preview Contact
