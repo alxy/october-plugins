@@ -1,63 +1,14 @@
-<div class="container">
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <div class="well well-sm">
-      <form class="form-horizontal" action="" method="post" id="contact" 
-      	data-request="{{ __SELF__ }}::onSubmit"
-      	data-request-success="$('#contact input').val(''); $('#contact-success').modal('show')"
-      >
-      <fieldset>
-        <legend class="text-center">{{ contact_title }}</legend>
+{{ form|raw }}
+<script src="{{ [
+    'assets/javascript/jquery.js',
+]|theme }}"></script> 
 
-        <!-- Name input-->
-        <div class="form-group">
-          <label class="col-md-3 control-label" for="name">Name</label>
-          <div class="col-md-9">
-            <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
-          </div>
-        </div>
-
-        <!-- Email input-->
-        <div class="form-group">
-          <label class="col-md-3 control-label" for="email">Your E-mail</label>
-          <div class="col-md-9">
-            <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
-          </div>
-        </div>
-
-        <!-- Message body -->
-        <div class="form-group">
-          <label class="col-md-3 control-label" for="message">Your message</label>
-          <div class="col-md-9">
-            <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
-          </div>
-        </div>
-
-        <!-- Form actions -->
-        <div class="form-group">
-          <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-          </div>
-        </div>
-      </fieldset>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="contact-success">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">{{ contact_title }}</h4>
-      </div>
-      <div class="modal-body">
-        <p>Mail has been sent! We will respond ASAP.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+{% framework %}
+<script type="text/javascript">
+    $('#alxy_form').submit(function( event ) {
+        $(this).request('onSubmit', {
+            redirect: '{{ redirect|page }}'
+        });
+        event.preventDefault();
+    });
+</script>

@@ -4,7 +4,7 @@ subject = "Contact Form Widget"
 == 
 <h2>Contact</h2>
 <ul>
-	<li><b>Name:</b> {{ name }}</li>
-	<li><b>Email:</b> {{ email }}</li>
-	<li><b>Message:</b> <p>{{ content }}</p></li>
+	{% for field in fields %}
+	    <li><b>{{ field.label }}:</b>{{ field.value }}</li>
+	{% endfor %}
 </ul>

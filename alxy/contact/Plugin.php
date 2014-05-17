@@ -31,33 +31,28 @@ class Plugin extends PluginBase
         ];
     }
 
-    public function registerNavigation()
-{
-    return [
-        'contact' => [
-            'label'       => 'Contact',
-            'url'         => Backend::url('alxy/contact/contact/index'),
-            'icon'        => 'icon-pencil',
-            'permissions' => ['alxy.contact.*'],
-            'order'       => 500,
-
-            'sideMenu' => [
-                'posts' => [
-                    'label'       => 'Fields',
-                    'icon'        => 'icon-copy',
-                    'url'         => Backend::url('alxy/contact/contact/index'),
-                    'permissions' => [],
-                ],
-                'categories' => [
-                    'label'       => 'Template',
-                    'icon'        => 'icon-copy',
-                    'url'         => Backend::url('alxy/contact/contact/index'),
-                    'permissions' => []
-                ],
+    public function registerSettings()
+    {
+        return [
+            'settings' => [
+                'label'       => 'Contact settings',
+                'description' => 'Manage contact form settings.',
+                'category'    => 'Contact',
+                'icon'        => 'icon-cog',
+                'class'       => 'Alxy\Contact\Models\Settings',
+                'order'       => 100
             ]
+        ];
+    }
 
-        ]
-    ];
-}
+    public function registerFormWidgets()
+    {
+        return [
+            'Alxy\Contact\Widgets\FormBuilder' => [
+                'label' => 'Form builder',
+                'alias' => 'formbuilder'
+            ]
+        ];
+    }
 
 }

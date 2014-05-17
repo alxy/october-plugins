@@ -1,0 +1,10 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+  form:
+    label: Form fields
+    description: Create your form via drag & drop
+    type: formbuilder

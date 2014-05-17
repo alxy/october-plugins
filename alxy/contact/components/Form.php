@@ -1,7 +1,9 @@
 <?php namespace Alxy\Contact\Components;
 
 use Cms\Classes\ComponentBase;
+use Cms\Classes\CmsPropertyHelper;
 use System\Models\EmailSettings;
+use Alxy\Contact\Models\Settings;
 use Mail;
 
 class Form extends ComponentBase
@@ -18,24 +20,34 @@ class Form extends ComponentBase
     public function defineProperties()
     {
         return [
-            'title' => [
-                'description'       => 'The title of the displayed contact form',
-                'title'             => 'Title',
-                'default'           => 'Contact Form',
-                'type'              => 'string',
-                'validationPattern' => '^.+$',
-                'validationMessage' => 'The Title value is required.'
+            'redirect' => [
+                'title'       => 'Redirect to',
+                'description' => 'Page name to redirect after submit.',
+                'type'        => 'dropdown',
+                'default'     => ''
             ]
         ];
     }
 
+    public function getRedirectOptions()
+    {
+        return array_merge([''=>'- none -'], CmsPropertyHelper::listPages());
+    }
+
     public function onSubmit()
     {
-        $data = [
-            'name' => post('name'),
-            'email' => post('email'),
-            'content' => nl2br(post('message'))
-        ];
+        $formFields = json_decode(Settings::get('form_fields'), true);
+        $data = [];
+
+        foreach ($formFields as $formField) {
+            if (isset($formField['fields']['id']['value']) && $formField['fields']['id']['value'] != 'submit') {
+                $data['fields'][] = [
+                    'value' => post($formField['fields']['id']['value']),
+                    'label' => $formField['fields']['label']['value']
+                ];
+            }
+        }
+
         Mail::send('alxy.contact::email.contact', $data, function($message)
         {
             $message->to(EmailSettings::get('sender_email'), EmailSettings::get('sender_name'));
@@ -44,8 +56,8 @@ class Form extends ComponentBase
 
     public function onRun()
     {
-        $this->page['contact_title'] = $this->property('title');
-        $this->controller->addJs('/plugins/alxy/contact/assets/js/bootstrap.min.js');
+        $this->page['form'] = Settings::get('form_rendered');
+        $this->page['redirect'] = $this->property('redirect');
     }
 
 }
